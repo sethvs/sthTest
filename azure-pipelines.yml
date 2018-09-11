@@ -36,9 +36,6 @@ resources:
 - repo: self
   clean: true
 
-pool:
-  vmImage: vs2017-win2016
-
 - powershell: |
     $PSVersionTable
   name: PSVersionTable
