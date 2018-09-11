@@ -43,6 +43,11 @@ steps:
     displayName: Getting PSVersionTable variable
     condition: succeededOrFailed()
 
+  - powershell: |
+      Invoke-Pester -Script .\Tests\sthTest.tests.ps1 -CodeCoverage sthTest.ps1
+    name: invokePester
+    displayName: Testing with Pester
+    condition: succeededOrFailed()
   # - powershell: |
   #     Get-ChildItem -Path env:
   #   displayName: Capture environment
