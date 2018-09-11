@@ -55,8 +55,14 @@ steps:
     displayName: Get Pester Version
     condition: succeededOrFailed()
 
+  # - powershell: |
+  #     Invoke-Pester -Script .\Tests\sthTest.tests.ps1 -CodeCoverage sthTest.ps1
+  #   name: invokePester
+  #   displayName: Testing with Pester
+  #   condition: succeededOrFailed()
+
   - powershell: |
-      Invoke-Pester -Script .\Tests\sthTest.tests.ps1 -CodeCoverage sthTest.ps1
+      Invoke-Pester .\Tests\sthTest.tests.ps1 -OutputFile .\testResults.xml -OutputFormat NUnitXml -CodeCoverage .\sthTest.ps1 -CodeCoverageOutputFile .\codeCoverage.xml -CodeCoverageOutputFileFormat JaCoCo
     name: invokePester
     displayName: Testing with Pester
     condition: succeededOrFailed()
