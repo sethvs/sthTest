@@ -44,7 +44,7 @@ steps:
     condition: succeededOrFailed()
 
   - powershell: |
-      Install-Module -Name Pester -MinimumVersion 4.4.0 -Repository PSGallery -Force
+      Install-Module -Name Pester -MinimumVersion 4.4.0 -Repository PSGallery -SkipPublisherCheck
     name: installPester
     displayName: Install Pester
     condition: succeededOrFailed()
