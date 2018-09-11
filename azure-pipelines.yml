@@ -50,10 +50,10 @@ steps:
     condition: succeededOrFailed()
 
   - powershell: |
-    Get-Module -Name Pester -ListAvailable
-  name: pesterVersion
-  displayName: Get Pester Version
-  condition: succeededOrFailed()
+      Get-Module -Name Pester -ListAvailable
+    name: pesterVersion
+    displayName: Get Pester Version
+    condition: succeededOrFailed()
 
   # - powershell: |
   #     Get-ChildItem -Path env:
