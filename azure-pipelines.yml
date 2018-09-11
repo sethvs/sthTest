@@ -48,6 +48,12 @@ steps:
     name: invokePester
     displayName: Testing with Pester
     condition: succeededOrFailed()
+
+    - powershell: |
+      Get-Module -Name Pester
+    name: pesterVersion
+    displayName: Get Pester Version
+    condition: succeededOrFailed()
   # - powershell: |
   #     Get-ChildItem -Path env:
   #   displayName: Capture environment
