@@ -36,11 +36,12 @@ resources:
 - repo: self
   clean: true
 
-- powershell: |
-    $PSVersionTable
-  name: PSVersionTable
-  displayName: Getting PSVersionTable variable
-  condition: succeededOrFailed()
+steps:
+  - powershell: |
+      $PSVersionTable
+    name: PSVersionTable
+    displayName: Getting PSVersionTable variable
+    condition: succeededOrFailed()
 
   # - powershell: |
   #     Get-ChildItem -Path env:
