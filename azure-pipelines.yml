@@ -75,16 +75,16 @@ steps:
 
 # Publish Test Results
 # Publish Test Results to Azure Pipelines/TFS
-- task: PublishTestResults@2
-  inputs:
-    testRunner: 'NUnit' # Options: JUnit, NUnit, VSTest, XUnit
-    testResultsFiles: 'testResults.xml' 
-    searchFolder: '$(System.DefaultWorkingDirectory)' # Optional
-    #mergeTestResults: false # Optional
-    #testRunTitle: # Optional
-    #platform: # Optional
-    #configuration: # Optional
-    #publishRunAttachments: true # Optional
+  - task: PublishTestResults@2
+    inputs:
+      testRunner: 'NUnit' # Options: JUnit, NUnit, VSTest, XUnit
+      testResultsFiles: 'testResults.xml' 
+      searchFolder: '$(System.DefaultWorkingDirectory)' # Optional
+      #mergeTestResults: false # Optional
+      #testRunTitle: # Optional
+      #platform: # Optional
+      #configuration: # Optional
+      #publishRunAttachments: true # Optional
 
   # - powershell: |
   #     Get-ChildItem -Path env:
