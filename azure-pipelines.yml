@@ -36,11 +36,16 @@ resources:
 - repo: self
   clean: true
 
-steps:
-  - powershell: |
-      $PSVersionTable
-    displayName: PSVersionTable
-    condition: succeededOrFailed()
+jobs:
+  - job: vs2017-win2016
+    pool:
+      vmImage: vs2017-win2016
+    steps:
+    - powershell: |
+        $PSVersionTable
+      name: PSVersionTable
+      displayName: Getting PSVersionTable variable
+      condition: succeededOrFailed()
 
   # - powershell: |
   #     Get-ChildItem -Path env:
