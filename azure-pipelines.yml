@@ -22,8 +22,8 @@ queue:
   matrix:
     UnelevatedPesterTests:
       Purpose: UnelevatedPesterTests
-    ElevatedPesterTests_xUnit_Packaging:
-      Purpose: ElevatedPesterTests_xUnit_Packaging
+    # ElevatedPesterTests_xUnit_Packaging:
+    #   Purpose: ElevatedPesterTests_xUnit_Packaging
 
 variables:
   GIT_CONFIG_PARAMETERS: "'core.autocrlf=false'"
@@ -44,15 +44,21 @@ steps:
     condition: succeededOrFailed()
 
   - powershell: |
-      Invoke-Pester -Script .\Tests\sthTest.tests.ps1 -CodeCoverage sthTest.ps1
-    name: invokePester
-    displayName: Testing with Pester
+      Install-Module -Name Pester -MinimumVersion 4.4.0
+    name: installPester
+    displayName: Install Pester
     condition: succeededOrFailed()
 
   - powershell: |
       Get-Module -Name Pester -ListAvailable
     name: pesterVersion
     displayName: Get Pester Version
+    condition: succeededOrFailed()
+
+  - powershell: |
+      Invoke-Pester -Script .\Tests\sthTest.tests.ps1 -CodeCoverage sthTest.ps1
+    name: invokePester
+    displayName: Testing with Pester
     condition: succeededOrFailed()
 
   # - powershell: |
