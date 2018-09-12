@@ -123,6 +123,8 @@ steps:
 
   - script: |
       "%PROGRAMFILES%\PowerShell\pwsh.exe" -Command "& {Get-Module -Name Pester -ListAvailable}"
+      "%PROGRAMFILES%\PowerShell\pwsh.exe" -Command "& {Install-Module -Name Pester -MinimumVersion 4.4.0 -Repository PSGallery -SkipPublisherCheck -Force}"
+      "%PROGRAMFILES%\PowerShell\pwsh.exe" -Command "& {Get-Module -Name Pester -ListAvailable}"
     workingDirectory: #
     name: PSCore_getPesterVersion
     displayName: PowerShell Core - Get Pester Version
