@@ -57,7 +57,7 @@ steps:
 
   - powershell: |
       # Invoke-Expression "& {$(Invoke-RestMethod https://aka.ms/install-pscore)} -AddToPath"
-      Invoke-Expression "& {$(Invoke-RestMethod https://aka.ms/install-pscore)} -AddToPath -Destination $env:ProgramFiles"
+      Invoke-Expression "& {$(Invoke-RestMethod https://aka.ms/install-pscore)} -AddToPath -Destination `"$env:ProgramFiles`""
       $Env:Path -split [System.IO.Path]::PathSeparator
     name: installPowerShellCore
     displayName: Installing PowerShell Core
