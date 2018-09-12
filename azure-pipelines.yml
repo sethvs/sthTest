@@ -60,6 +60,23 @@ steps:
       pwsh: true # Optional
       #workingDirectory: # Optional
 
+# Command Line
+# Run a command line script using cmd.exe on Windows and bash on macOS and Linux.
+  - task: CmdLine@2
+    name: cmd
+    displayName: Command Line Command
+    inputs:
+      script: 'pwsh.exe -Command "& {$PSVersionTable}"'
+      # script: 'echo Write your commands here.'
+      #workingDirectory: # Optional
+      #failOnStderr: false # Optional
+
+  # - script: # script path or inline
+  #   workingDirectory: #
+  #   displayName: #
+  #   failOnStderr: #
+  #   env:  # mapping of environment variables to add
+
   - powershell: |
       Install-Module -Name Pester -MinimumVersion 4.4.0 -Repository PSGallery -SkipPublisherCheck -Force
     name: installPester
