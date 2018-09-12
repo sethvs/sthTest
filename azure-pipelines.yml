@@ -138,6 +138,8 @@ steps:
       #platform: # Optional
       #configuration: # Optional
       #publishRunAttachments: true # Optional
+    condition: succeededOrFailed()
+
 
 # Publish Code Coverage Results
 # Publish Cobertura or JaCoCo code coverage results from a build
@@ -149,6 +151,8 @@ steps:
       #reportDirectory: # Optional
       #additionalCodeCoverageFiles: # Optional
       #failIfCoverageEmpty: false # Optional
+    condition: succeededOrFailed()
+
 
   # - powershell: |
   #     Get-ChildItem -Path env:
