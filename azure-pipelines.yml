@@ -48,12 +48,14 @@ steps:
     name: setA
     displayName: Setting A
     condition: succeededOrFailed()
+    enabled: false
 
   - powershell: |
       $a
     name: getA
     displayName: Getting A
     condition: succeededOrFailed()
+    enabled: false
 
   - powershell: |
       # Invoke-Expression "& {$(Invoke-RestMethod https://aka.ms/install-pscore)} -AddToPath"
