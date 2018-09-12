@@ -115,7 +115,8 @@ steps:
     displayName: Command Line Command
     inputs:
       # script: 'pwsh.exe -Command "& {$PSVersionTable}"'
-      script: 'pwsh.exe -Command "& {$PSVersionTable}"'
+      # script: 'pwsh.exe -Command "& {$PSVersionTable}"'
+      script: '%PROGRAMFILES%\PowerShell\pwsh.exe -Command "& {$PSVersionTable}"'
       # script: 'echo Write your commands here.'
       #workingDirectory: # Optional
       #failOnStderr: false # Optional
