@@ -56,7 +56,7 @@ steps:
     condition: succeededOrFailed()
 
   - powershell: |
-      Invoke-Expression "& {$(Invoke-RestMethod https://aka.ms/install-pscore)}"
+      Invoke-Expression "& {$(Invoke-RestMethod https://aka.ms/install-pscore)} -AddToPath"
       $Env:Path -split [System.IO.Path]::PathSeparator
     name: installPowerShellCore
     displayName: Installing PowerShell Core
