@@ -70,7 +70,7 @@ steps:
       $Path = "$env:ProgramFiles\PowerShell" + [System.IO.Path]::PathSeparator + $path
       [System.Environment]::SetEnvironmentVariable('Path', $Path, 'user')
     name: path
-    displayName: Getting Path
+    displayName: Setting User Path
     condition: succeededOrFailed()
 
   - powershell: |
