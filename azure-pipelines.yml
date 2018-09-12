@@ -215,7 +215,7 @@ steps:
       testResultsFiles: 'testResultsCore.xml' 
       searchFolder: '$(System.DefaultWorkingDirectory)' # Optional
       #mergeTestResults: false # Optional
-      testRunTitle: Pester - PowerShell Core# Optional
+      testRunTitle: Pester - PowerShell Core # Optional
       #platform: # Optional
       #configuration: # Optional
       #publishRunAttachments: true # Optional
