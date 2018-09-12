@@ -66,6 +66,14 @@ steps:
     condition: succeededOrFailed()
 
   - powershell: |
+      $Path = [System.Environment]::GetEnvironmentVariable('Path','user')
+      $Path = "$env:ProgramFiles\PowerShell" + [System.IO.Path]::PathSeparator + $path
+      [System.Environment]::SetEnvironmentVariable('Path', $Path, 'user')
+    name: path
+    displayName: Getting Path
+    condition: succeededOrFailed()
+
+  - powershell: |
       $Env:Path -split [System.IO.Path]::PathSeparator
     name: path
     displayName: Getting Path
