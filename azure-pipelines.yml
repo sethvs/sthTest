@@ -43,6 +43,24 @@ steps:
     displayName: Getting PSVersionTable variable
     condition: succeededOrFailed()
 
+  - powershell: |
+    $a = 'aaa'; $a
+  name: setA
+  displayName: Setting A
+  condition: succeededOrFailed()
+
+  - powershell: |
+    $a
+  name: getA
+  displayName: Getting A
+  condition: succeededOrFailed()
+
+  - powershell: |
+    Invoke-Expression "& {$(Invoke-RestMethod https://aka.ms/install-pscore)}"
+  name: installPowerShellCore
+  displayName: Installing PowerShell Core
+  condition: succeededOrFailed()
+
 # PowerShell!
 # Run a PowerShell script on Windows, macOS, or Linux.!!
   - task: PowerShell@2
