@@ -120,19 +120,30 @@ steps:
       # script: 'echo Write your commands here.'
       #workingDirectory: # Optional
       #failOnStderr: false # Optional
+    condition: succeededOrFailed()
+
 
   - script: |
       "%PROGRAMFILES%\PowerShell\pwsh.exe" -Command "& {Get-Module -Name Pester -ListAvailable}"
       "%PROGRAMFILES%\PowerShell\pwsh.exe" -Command "& {Install-Module -Name Pester -MinimumVersion 4.4.0 -Repository PSGallery -SkipPublisherCheck -Force}"
       "%PROGRAMFILES%\PowerShell\pwsh.exe" -Command "& {Get-Module -Name Pester -ListAvailable}"
     workingDirectory: #
-    name: PSCore_getPesterVersion
-    displayName: PowerShell Core - Get Pester Version
+    name: PSCore_InstallPester
+    displayName: PowerShell Core - Install Pester
     # failOnStderr: #
     # env:  # mapping of environment variables to add
+    condition: succeededOrFailed()
 
-      
-      
+  - script: |
+      "%PROGRAMFILES%\PowerShell\pwsh.exe" -Command "& {Invoke-Pester .\Tests\sthTest.tests.ps1 -OutputFile .\testResultsCore.xml -OutputFormat NUnitXml -CodeCoverage .\sthTest.ps1 -CodeCoverageOutputFile .\codeCoverageCore.xml -CodeCoverageOutputFileFormat JaCoCo}"
+    workingDirectory: #
+    name: PSCore_Test
+    displayName: PowerShell Core - Testing
+    # failOnStderr: #
+    # env:  # mapping of environment variables to add
+    condition: succeededOrFailed()
+
+
   # - script: # script path or inline
   #   workingDirectory: #
   #   displayName: #
