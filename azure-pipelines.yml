@@ -68,6 +68,12 @@ steps:
     displayName: Getting Path
     condition: succeededOrFailed()
 
+  - powershell: |
+      [System.Environment]::GetEnvironmentVariable("Path", "Machine") -split [System.IO.Path]::PathSeparator
+    name: machinePath
+    displayName: Getting Machine Path
+    condition: succeededOrFailed()
+
 # PowerShell!
 # Run a PowerShell script on Windows, macOS, or Linux.!!
   - task: PowerShell@2
