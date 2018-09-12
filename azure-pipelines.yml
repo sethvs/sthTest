@@ -57,7 +57,7 @@ steps:
 
   - powershell: |
       # Invoke-Expression "& {$(Invoke-RestMethod https://aka.ms/install-pscore)} -AddToPath"
-      Invoke-Expression "& {$(Invoke-RestMethod https://aka.ms/install-pscore)} -AddToPath -Destination `"$env:ProgramFiles`""
+      Invoke-Expression "& {$(Invoke-RestMethod https://aka.ms/install-pscore)} -AddToPath -Destination `"$env:ProgramFiles\PowerShell`""
       $Env:Path -split [System.IO.Path]::PathSeparator
     name: installPowerShellCore
     displayName: Installing PowerShell Core
@@ -73,6 +73,12 @@ steps:
       [System.Environment]::GetEnvironmentVariable("Path", "Machine") -split [System.IO.Path]::PathSeparator
     name: machinePath
     displayName: Getting Machine Path
+    condition: succeededOrFailed()
+
+  - powershell: |
+      $Env:Path -split [System.IO.Path]::PathSeparator
+    name: path2
+    displayName: Getting Path 2
     condition: succeededOrFailed()
 
 # PowerShell!
