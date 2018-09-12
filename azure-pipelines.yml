@@ -188,7 +188,7 @@ steps:
       testResultsFiles: 'testResults.xml' 
       searchFolder: '$(System.DefaultWorkingDirectory)' # Optional
       #mergeTestResults: false # Optional
-      #testRunTitle: # Optional
+      testRunTitle: Pester - Windows PowerShell # Optional
       #platform: # Optional
       #configuration: # Optional
       #publishRunAttachments: true # Optional
@@ -215,7 +215,7 @@ steps:
       testResultsFiles: 'testResultsCore.xml' 
       searchFolder: '$(System.DefaultWorkingDirectory)' # Optional
       #mergeTestResults: false # Optional
-      #testRunTitle: # Optional
+      testRunTitle: Pester - PowerShell Core# Optional
       #platform: # Optional
       #configuration: # Optional
       #publishRunAttachments: true # Optional
