@@ -1,4 +1,4 @@
-Remove-Module -Name sthPipelineTools -Force -ErrorAction 'SilentlyContinue'
+Remove-Module -Name sthTest -Force -ErrorAction 'SilentlyContinue'
 Import-Module "$PSScriptRoot\..\sthTest.psd1"
 # Write-Host $PSScriptRoot 
 Describe 'sthTest Tests' {
