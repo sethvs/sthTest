@@ -43,6 +43,21 @@ steps:
     displayName: Getting PSVersionTable variable
     condition: succeededOrFailed()
 
+    
+# Command Line
+# Run a command line script using cmd.exe on Windows and bash on macOS and Linux.
+  - task: CmdLine@2
+    name: cmd
+    displayName: Is there a PowerShell Core pre-installed?
+    inputs:
+      # script: 'pwsh.exe -Command "& {$PSVersionTable}"'
+      # script: 'pwsh.exe -Command "& {$PSVersionTable}"'
+      script: 'dir %PROGRAMFILES%\'
+      # script: 'echo Write your commands here.'
+      #workingDirectory: # Optional
+      #failOnStderr: false # Optional
+    condition: succeededOrFailed()
+
   - powershell: |
       "$a = 'aaa'"; $a
     name: setA
