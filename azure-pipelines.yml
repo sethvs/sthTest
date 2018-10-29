@@ -47,7 +47,7 @@ steps:
 # Command Line
 # Run a command line script using cmd.exe on Windows and bash on macOS and Linux.
   - task: CmdLine@2
-    name: cmd
+    name: pre
     displayName: Is there a PowerShell Core pre-installed?
     inputs:
       # script: 'pwsh.exe -Command "& {$PSVersionTable}"'
