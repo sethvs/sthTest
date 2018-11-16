@@ -1,7 +1,8 @@
 Param (
     $ReleaseDefinitionName,
     $ReleasePrimaryArtifactSourceAlias,
-    $SystemDefaultWorkingDirectory
+    $SystemDefaultWorkingDirectory,
+    $NuGetApiKey
 )
 # $ModuleName = 'sthInvokeUsingCulture'
 
@@ -20,5 +21,6 @@ Copy-Item -Path $SourcePath\ru-ru -Destination $ModulePath -Exclude *_* -Recurse
 
 Update-Module -Name PowerShellGet -Force
 Write-Output '-------------'
-Write-Output $(NuGetApiKey)
+Write-Output $NuGetApiKey
+# Write-Output $(NuGetApiKey)
 # Publish-Module -Path $ModulePath -NuGetApiKey $(NuGetApiKey) -Verbose
