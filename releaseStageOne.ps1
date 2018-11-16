@@ -1,3 +1,6 @@
+Param (
+    $SystemDefaultWorkingDirectory
+)
 # $ModuleName = 'sthInvokeUsingCulture'
 
 # $SourcePath = Join-Path -Path $(System.DefaultWorkingDirectory) -ChildPath "_$ModuleName"
