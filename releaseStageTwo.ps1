@@ -24,3 +24,4 @@ Write-Output '-------------'
 Write-Output $NuGetApiKey
 # Write-Output $(NuGetApiKey)
 # Publish-Module -Path $ModulePath -NuGetApiKey $(NuGetApiKey) -Verbose
+# Publish-Module -Path $ModulePath -NuGetApiKey $NuGetApiKey -Verbose
