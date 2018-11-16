@@ -1,7 +1,7 @@
 # $ModuleName = 'sthInvokeUsingCulture'
 
 # $SourcePath = Join-Path -Path $(System.DefaultWorkingDirectory) -ChildPath "_$ModuleName"
-$SourcePath = Join-Path -Path $(System.DefaultWorkingDirectory) -ChildPath $(Relese.PrimaryArtifactSourceAalias)
+$SourcePath = Join-Path -Path $(System.DefaultWorkingDirectory) -ChildPath $(Release.PrimaryArtifactSourceAlias)
 $ModulePath = Join-Path -Path $(System.DefaultWorkingDirectory) -ChildPath $(Release.DefinitionName)
 # $ModulePath = Join-Path -Path $(System.DefaultWorkingDirectory) -ChildPath $ModuleName
 
