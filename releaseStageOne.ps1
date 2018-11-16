@@ -1,12 +1,14 @@
 Param (
+    $ReleaseDefinitionName,
+    $ReleasePrimaryArtifactSourceAlias,
     $SystemDefaultWorkingDirectory
 )
 # $ModuleName = 'sthInvokeUsingCulture'
 
 # $SourcePath = Join-Path -Path $(System.DefaultWorkingDirectory) -ChildPath "_$ModuleName"
 # $SourcePath = Join-Path -Path $(System.DefaultWorkingDirectory) -ChildPath $(Release.PrimaryArtifactSourceAlias)
-$SourcePath = Join-Path -Path $SystemDefaultWorkingDirectory -ChildPath $(Release.PrimaryArtifactSourceAlias)
-$ModulePath = Join-Path -Path $SystemDefaultWorkingDirectory -ChildPath $(Release.DefinitionName)
+$SourcePath = Join-Path -Path $SystemDefaultWorkingDirectory -ChildPath $ReleasePrimaryArtifactSourceAlias
+$ModulePath = Join-Path -Path $SystemDefaultWorkingDirectory -ChildPath $ReleaseDefinitionName
 # $ModulePath = Join-Path -Path $(System.DefaultWorkingDirectory) -ChildPath $(Release.DefinitionName)
 # $ModulePath = Join-Path -Path $(System.DefaultWorkingDirectory) -ChildPath $ModuleName
 
