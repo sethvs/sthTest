@@ -4,8 +4,10 @@ Param (
 # $ModuleName = 'sthInvokeUsingCulture'
 
 # $SourcePath = Join-Path -Path $(System.DefaultWorkingDirectory) -ChildPath "_$ModuleName"
-$SourcePath = Join-Path -Path $(System.DefaultWorkingDirectory) -ChildPath $(Release.PrimaryArtifactSourceAlias)
-$ModulePath = Join-Path -Path $(System.DefaultWorkingDirectory) -ChildPath $(Release.DefinitionName)
+# $SourcePath = Join-Path -Path $(System.DefaultWorkingDirectory) -ChildPath $(Release.PrimaryArtifactSourceAlias)
+$SourcePath = Join-Path -Path $SystemDefaultWorkingDirectory -ChildPath $(Release.PrimaryArtifactSourceAlias)
+$ModulePath = Join-Path -Path $SystemDefaultWorkingDirectory -ChildPath $(Release.DefinitionName)
+# $ModulePath = Join-Path -Path $(System.DefaultWorkingDirectory) -ChildPath $(Release.DefinitionName)
 # $ModulePath = Join-Path -Path $(System.DefaultWorkingDirectory) -ChildPath $ModuleName
 
 New-Item -ItemType Directory -Path $ModulePath | Out-Null
