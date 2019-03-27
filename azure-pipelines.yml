@@ -162,6 +162,7 @@ steps:
       #workingDirectory: # Optional
       #failOnStderr: false # Optional
     condition: succeededOrFailed()
+    enabled: false
 
 
   - script: |
@@ -174,6 +175,7 @@ steps:
     # failOnStderr: #
     # env:  # mapping of environment variables to add
     condition: succeededOrFailed()
+    enabled: false
 
   - script: |
       "%PROGRAMFILES%\PowerShell\pwsh.exe" -Command "& {Invoke-Pester .\Tests\sthTest.tests.ps1 -OutputFile .\testResultsCore.xml -OutputFormat NUnitXml -CodeCoverage .\sthTest.ps1 -CodeCoverageOutputFile .\codeCoverageCore.xml -CodeCoverageOutputFileFormat JaCoCo}"
@@ -183,6 +185,7 @@ steps:
     # failOnStderr: #
     # env:  # mapping of environment variables to add
     condition: succeededOrFailed()
+    enabled: false
 
 
   # - script: # script path or inline
