@@ -16,12 +16,13 @@
 #   displayName: 'Run a multi-line script'
 
 name: PR-$(System.PullRequest.PullRequestNumber)-$(Date:yyyyMMdd)$(Rev:.rr)
-queue:
-  name: Hosted VS2017
-  parallel: 2 # Limit to two agents at a time
-  matrix:
-    UnelevatedPesterTests:
-      Purpose: UnelevatedPesterTests
+
+# queue:
+  # name: Hosted VS2017
+  # parallel: 2 # Limit to two agents at a time
+  # matrix:
+    # UnelevatedPesterTests:
+      # Purpose: UnelevatedPesterTests
     # ElevatedPesterTests_xUnit_Packaging:
     #   Purpose: ElevatedPesterTests_xUnit_Packaging
 
@@ -36,7 +37,6 @@ variables:
 # - repo: self
 #   clean: true
 jobs:
-
 - job: windows
 
   pool:
