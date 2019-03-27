@@ -48,7 +48,8 @@ steps:
     name: PSVersionTable_pwsh
     displayName: Getting PSVersionTable variable in pwsh
     condition: succeededOrFailed()
-    pwsh: true
+    # pwsh: true
+    enabled: false
 
 # PowerShell!
 # Run a PowerShell script on Windows, macOS, or Linux.!!
