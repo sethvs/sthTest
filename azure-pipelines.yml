@@ -43,6 +43,13 @@ steps:
     displayName: Getting PSVersionTable variable
     condition: succeededOrFailed()
 
+  - powershell: |
+      $PSVersionTable
+    name: PSVersionTable_pwsh
+    displayName: Getting PSVersionTable variable in pwsh
+    condition: succeededOrFailed()
+    pwsh: true
+
 # PowerShell!
 # Run a PowerShell script on Windows, macOS, or Linux.!!
   - task: PowerShell@2
@@ -95,6 +102,8 @@ steps:
     name: installPowerShellCore
     displayName: Installing PowerShell Core
     condition: succeededOrFailed()
+    enabled: false
+
 
   - powershell: |
       $Path = [System.Environment]::GetEnvironmentVariable('Path','user')
