@@ -32,11 +32,14 @@ variables:
   # Avoid expensive initialization of dotnet cli, see: http://donovanbrown.com/post/Stop-wasting-time-during-NET-Core-builds
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
 
-resources:
-- repo: self
-  clean: true
+# resources:
+# - repo: self
+#   clean: true
 
 steps:
+  - checkout: self
+    clean: true
+  
   - powershell: |
       $PSVersionTable
     name: PSVersionTable
@@ -199,7 +202,7 @@ steps:
       targetType: 'inline'
       script: |
         Get-Module -Name Pester -ListAvailable
-        Install-Module -Name Pester -MinimumVersion 4.7.3 -Repository PSGallery #-SkipPublisherCheck -Force
+        Install-Module -Name Pester -MinimumVersion 4.7.3 -Repository PSGallery -Force #-SkipPublisherCheck
         Get-Module -Name Pester -ListAvailable
       pwsh: true
     condition: succeededOrFailed()
@@ -221,7 +224,7 @@ steps:
   #   env:  # mapping of environment variables to add
 
   - powershell: |
-      Install-Module -Name Pester -MinimumVersion 4.7.3 -Repository PSGallery # -SkipPublisherCheck -Force
+        Install-Module -Name Pester -MinimumVersion 4.7.3 -Repository PSGallery -Force #-SkipPublisherCheck
     name: installPester
     displayName: Install Pester
     condition: succeededOrFailed()
