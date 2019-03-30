@@ -383,7 +383,7 @@ jobs:
         targetType: 'inline'
         script: |
           Get-Module -Name Pester -ListAvailable
-          Install-Module -Name Pester -MinimumVersion 4.7.3 -Repository PSGallery -Force #-SkipPublisherCheck
+          Install-Module -Name Pester -MinimumVersion 4.7.3 -Repository PSGallery -Force -Scope CurrentUser #-SkipPublisherCheck
           Get-Module -Name Pester -ListAvailable
         pwsh: true
       condition: succeededOrFailed()
