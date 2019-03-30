@@ -54,6 +54,12 @@ jobs:
       condition: succeededOrFailed()
 
     - powershell: |
+        Get-Module -ListAvailable
+      name: ModulesInstalled
+      displayName: Getting installed modules
+      condition: succeededOrFailed()
+      
+    - powershell: |
         $PSVersionTable
       name: PSVersionTable_pwsh
       displayName: Getting PSVersionTable variable in pwsh
@@ -228,29 +234,35 @@ jobs:
       condition: succeededOrFailed()
 
     - powershell: |
-        $PSVersionTable
-      name: PSVersionTable_pwsh
-      displayName: Getting PSVersionTable variable in pwsh
+        Get-Module -ListAvailable
+      name: ModulesInstalled
+      displayName: Getting installed modules
       condition: succeededOrFailed()
-      # pwsh: true
-      enabled: false
 
-  # PowerShell!
-  # Run a PowerShell script on Windows, macOS, or Linux.!!
-    - task: PowerShell@2
-      name: pwsh_check
-      displayName: PowerShell Core Check
-      inputs:
-        targetType: 'inline' # Optional. Options: filePath, inline
-        #filePath: # Required when targetType == FilePath
-        #arguments: # Optional
-        #script: '# Write your powershell commands here.' # Required when targetType == Inline
-        script: '$PSVersionTable' # Required when targetType == Inline
-        #errorActionPreference: 'stop' # Optional. Options: stop, continue, silentlyContinue
-        #failOnStderr: false # Optional
-        #ignoreLASTEXITCODE: false # Optional
-        pwsh: true # Optional
-        #workingDirectory: # Optional
+    # - powershell: |
+    #     $PSVersionTable
+    #   name: PSVersionTable_pwsh
+    #   displayName: Getting PSVersionTable variable in pwsh
+    #   condition: succeededOrFailed()
+    #   # pwsh: true
+    #   enabled: false
+
+  # # PowerShell!
+  # # Run a PowerShell script on Windows, macOS, or Linux.!!
+  #   - task: PowerShell@2
+  #     name: pwsh_check
+  #     displayName: PowerShell Core Check
+  #     inputs:
+  #       targetType: 'inline' # Optional. Options: filePath, inline
+  #       #filePath: # Required when targetType == FilePath
+  #       #arguments: # Optional
+  #       #script: '# Write your powershell commands here.' # Required when targetType == Inline
+  #       script: '$PSVersionTable' # Required when targetType == Inline
+  #       #errorActionPreference: 'stop' # Optional. Options: stop, continue, silentlyContinue
+  #       #failOnStderr: false # Optional
+  #       #ignoreLASTEXITCODE: false # Optional
+  #       pwsh: true # Optional
+  #       #workingDirectory: # Optional
 
 
     # PowerShell Core - Test
@@ -329,30 +341,30 @@ jobs:
       displayName: Getting installed modules
       condition: succeededOrFailed()
 
-    - powershell: |
-        $PSVersionTable
-      name: PSVersionTable_pwsh
-      displayName: Getting PSVersionTable variable in pwsh
-      condition: succeededOrFailed()
-      # pwsh: true
-      enabled: false
+    # - powershell: |
+    #     $PSVersionTable
+    #   name: PSVersionTable_pwsh
+    #   displayName: Getting PSVersionTable variable in pwsh
+    #   condition: succeededOrFailed()
+    #   # pwsh: true
+    #   enabled: false
 
-  # PowerShell!
-  # Run a PowerShell script on Windows, macOS, or Linux.!!
-    - task: PowerShell@2
-      name: pwsh_check
-      displayName: PowerShell Core Check
-      inputs:
-        targetType: 'inline' # Optional. Options: filePath, inline
-        #filePath: # Required when targetType == FilePath
-        #arguments: # Optional
-        #script: '# Write your powershell commands here.' # Required when targetType == Inline
-        script: '$PSVersionTable' # Required when targetType == Inline
-        #errorActionPreference: 'stop' # Optional. Options: stop, continue, silentlyContinue
-        #failOnStderr: false # Optional
-        #ignoreLASTEXITCODE: false # Optional
-        pwsh: true # Optional
-        #workingDirectory: # Optional
+  # # PowerShell!
+  # # Run a PowerShell script on Windows, macOS, or Linux.!!
+  #   - task: PowerShell@2
+  #     name: pwsh_check
+  #     displayName: PowerShell Core Check
+  #     inputs:
+  #       targetType: 'inline' # Optional. Options: filePath, inline
+  #       #filePath: # Required when targetType == FilePath
+  #       #arguments: # Optional
+  #       #script: '# Write your powershell commands here.' # Required when targetType == Inline
+  #       script: '$PSVersionTable' # Required when targetType == Inline
+  #       #errorActionPreference: 'stop' # Optional. Options: stop, continue, silentlyContinue
+  #       #failOnStderr: false # Optional
+  #       #ignoreLASTEXITCODE: false # Optional
+  #       pwsh: true # Optional
+  #       #workingDirectory: # Optional
 
 
     # PowerShell Core - Test
