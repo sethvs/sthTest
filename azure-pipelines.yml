@@ -58,7 +58,7 @@ jobs:
       name: ModulesInstalled
       displayName: Getting installed modules
       condition: succeededOrFailed()
-      
+
     - powershell: |
         $PSVersionTable
       name: PSVersionTable_pwsh
@@ -83,6 +83,14 @@ jobs:
         #ignoreLASTEXITCODE: false # Optional
         pwsh: true # Optional
         #workingDirectory: # Optional
+
+    - task: PowerShell@2
+      name: ModulesInstalledCore
+      displayName: Getting installed modules Core
+      inputs:
+        targetType: 'inline'
+        script: Get-Module -ListAvailable
+        pwsh: true
 
   # Command Line
   # Run a command line script using cmd.exe on Windows and bash on macOS and Linux.
