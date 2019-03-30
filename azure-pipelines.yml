@@ -36,6 +36,7 @@ variables:
 # resources:
 # - repo: self
 #   clean: true
+
 jobs:
 - job: windows
 
@@ -318,6 +319,12 @@ jobs:
     
     - powershell: |
         $PSVersionTable
+      name: PSVersionTable
+      displayName: Getting PSVersionTable variable
+      condition: succeededOrFailed()
+
+    - powershell: |
+        Get-Module -ListAvailable
       name: PSVersionTable
       displayName: Getting PSVersionTable variable
       condition: succeededOrFailed()
