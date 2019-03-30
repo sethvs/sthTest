@@ -325,8 +325,8 @@ jobs:
 
     - powershell: |
         Get-Module -ListAvailable
-      name: PSVersionTable
-      displayName: Getting PSVersionTable variable
+      name: ModulesInstalled
+      displayName: Getting installed modules
       condition: succeededOrFailed()
 
     - powershell: |
