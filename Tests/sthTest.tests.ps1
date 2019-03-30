@@ -4,9 +4,16 @@ Import-Module "$PSScriptRoot\..\sthTest.psd1"
 Describe 'sthTest Tests' {
     Context "Format string as currency" {
 
+        It "Sрould return ru-RU currency: 123,00 ₽ or 123,00 руб." -TestCases @(
+            @{Culture = 'ru-RU'; Number = 123; Result = [System.Text.Encoding]::UTF8.GetString(@(49,50,51,44,48,48,32,226,130,189)), [System.Text.Encoding]::UTF8.GetString(@(49,50,51,44,48,48,32,209,128,209,131,208,177,46))}
+        )   {
+            Param($Culture, $Number, $Result)
+            Invoke-sthUsingCulture -Culture $Culture -ScriptBlock {"{0:c}" -f $Number} | Should -BeIn $Result
+        }
+
         It "Should return <Culture> currency: <Result>" -TestCases @(
             # @{Culture = 'ru-RU'; Number = 123; Result = '123,00 ₽'},
-            @{Culture = 'ru-RU'; Number = 123; Result = [System.Text.Encoding]::UTF8.GetString(@(49,50,51,44,48,48,32,226,130,189))},
+            # @{Culture = 'ru-RU'; Number = 123; Result = [System.Text.Encoding]::UTF8.GetString(@(49,50,51,44,48,48,32,226,130,189))},
             # @{Culture = 'nl-NL'; Number = 123; Result = '€ 123,00'}
             @{Culture = 'nl-NL'; Number = 123; Result = [System.Text.Encoding]::UTF8.GetString(@(226,130,172,32,49,50,51,44,48,48))},
             # @{Culture = 'en-US'; Number = 123; Result = '$123.00'}
