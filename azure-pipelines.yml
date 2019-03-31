@@ -47,15 +47,18 @@ jobs:
     condition: succeededOrFailed()
 
   - task: PublishTestResults@2
+    name: WindowsPowerShellPublishTestResult
+    displayName: 'Windows PowerShell: Publish Test Results'
     inputs:
       testRunner: 'NUnit'
       testResultsFiles: 'testResults.xml' 
       searchFolder: '$(System.DefaultWorkingDirectory)'
-
-      testRunTitle: Pester - Windows PowerShell
+      testRunTitle: 'Windows PowerShell: Pester'
     condition: succeededOrFailed()
 
   - task: PublishCodeCoverageResults@1
+    name: WindowsPowerShellPublishCodeCoverage
+    displayName: 'Windows PowerShell: Publish Code Coverage'
     inputs:
       codeCoverageTool: 'JaCoCo'
       summaryFileLocation: $(System.DefaultWorkingDirectory)/codeCoverage.xml
