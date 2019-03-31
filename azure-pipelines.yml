@@ -53,8 +53,8 @@ jobs:
       testRunner: 'NUnit'
       testResultsFiles: 'testResults.xml' 
       searchFolder: '$(System.DefaultWorkingDirectory)'
-      failTaskOnFailedTests: true
       testRunTitle: 'Windows PowerShell: Pester'
+      failTaskOnFailedTests: true
     condition: succeededOrFailed()
 
   - task: PublishCodeCoverageResults@1
@@ -80,98 +80,9 @@ jobs:
     - checkout: self
       clean: true
     
-    - powershell: |
-        $PSVersionTable
-      name: PSVersionTable
-      displayName: Getting PSVersionTable variable
-      condition: succeededOrFailed()
-
-    - powershell: |
-        Get-Module -ListAvailable
-      name: ModulesInstalled
-      displayName: Getting installed modules
-      condition: succeededOrFailed()
-
-    # - powershell: |
-    #     $PSVersionTable
-    #   name: PSVersionTable_pwsh
-    #   displayName: Getting PSVersionTable variable in pwsh
-    #   condition: succeededOrFailed()
-    #   # pwsh: true
-    #   enabled: false
-
-  # # PowerShell!
-  # # Run a PowerShell script on Windows, macOS, or Linux.!!
-  #   - task: PowerShell@2
-  #     name: pwsh_check
-  #     displayName: PowerShell Core Check
-  #     inputs:
-  #       targetType: 'inline' # Optional. Options: filePath, inline
-  #       #filePath: # Required when targetType == FilePath
-  #       #arguments: # Optional
-  #       #script: '# Write your powershell commands here.' # Required when targetType == Inline
-  #       script: '$PSVersionTable' # Required when targetType == Inline
-  #       #errorActionPreference: 'stop' # Optional. Options: stop, continue, silentlyContinue
-  #       #failOnStderr: false # Optional
-  #       #ignoreLASTEXITCODE: false # Optional
-  #       pwsh: true # Optional
-  #       #workingDirectory: # Optional
-
-
-    # PowerShell Core - Test
-    - task: PowerShell@2
-      name: installPesterCore
-      displayName: PowerShell Core - Install Pester
-      inputs:
-        targetType: 'inline'
-        script: |
-          Get-Module -Name Pester -ListAvailable
-          Install-Module -Name Pester -MinimumVersion 4.7.3 -Repository PSGallery -Force #-SkipPublisherCheck
-          Get-Module -Name Pester -ListAvailable
-        pwsh: true
-      condition: succeededOrFailed()
-
-    - task: PowerShell@2
-      name: invokePesterCore
-      displayName: PowerShell Core - Test with Pester
-      inputs:
-        targetType: 'inline'
-        script: |
-          Invoke-Pester .\Tests\sthTest.tests.ps1 -OutputFile .\testResultsCore.xml -OutputFormat NUnitXml -CodeCoverage .\sthTest.ps1 -CodeCoverageOutputFile .\codeCoverageCore.xml -CodeCoverageOutputFileFormat JaCoCo
-        pwsh: true
-      condition: succeededOrFailed()
-
-  # Publish Test Results
-  # Publish Test Results to Azure Pipelines/TFS
-    - task: PublishTestResults@2
-      inputs:
-        testRunner: 'NUnit' # Options: JUnit, NUnit, VSTest, XUnit
-        testResultsFiles: 'testResultsCore.xml' 
-        searchFolder: '$(System.DefaultWorkingDirectory)' # Optional
-        #mergeTestResults: false # Optional
-        testRunTitle: Pester - PowerShell Core # Optional
-        #platform: # Optional
-        #configuration: # Optional
-        #publishRunAttachments: true # Optional
-      condition: succeededOrFailed()
-      name: publishTestResultsCore
-      displayName: Publishing Test Results for PowerShell Core
-
-
-  # Publish Code Coverage Results
-  # Publish Cobertura or JaCoCo code coverage results from a build
-    - task: PublishCodeCoverageResults@1
-      inputs:
-        codeCoverageTool: 'JaCoCo' # Options: cobertura, jaCoCo
-        # summaryFileLocation: codeCoverage.xml
-        summaryFileLocation: $(System.DefaultWorkingDirectory)/codeCoverageCore.xml
-        #reportDirectory: # Optional
-        #additionalCodeCoverageFiles: # Optional
-        #failIfCoverageEmpty: false # Optional
-      condition: succeededOrFailed()
-      name: publishCoreCoverageCore
-      displayName: Publishing Code Coverage for PowerShell Core
-
+    - template: azure-pipelines.steps.yml
+      parameters:
+        os: macOS
 
 - job: linux
 

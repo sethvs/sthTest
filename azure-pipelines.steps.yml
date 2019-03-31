@@ -42,51 +42,6 @@ steps:
       pwsh: true
     condition: succeededOrFailed()
 
-  # - powershell: |
-  #       Install-Module -Name Pester -MinimumVersion 4.7.3 -Repository PSGallery -Force #-SkipPublisherCheck
-  #   name: installPester
-  #   displayName: Install Pester
-  #   condition: succeededOrFailed()
-
-  # - powershell: |
-  #     Get-Module -Name Pester -ListAvailable
-  #   name: pesterVersion
-  #   displayName: Get Pester Version
-  #   condition: succeededOrFailed()
-
-  # - powershell: |
-  #     Invoke-Pester .\Tests\sthTest.tests.ps1 -OutputFile .\testResults.xml -OutputFormat NUnitXml -CodeCoverage .\sthTest.ps1 -CodeCoverageOutputFile .\codeCoverage.xml -CodeCoverageOutputFileFormat JaCoCo
-  #   name: invokePester
-  #   displayName: Testing with Pester
-  #   condition: succeededOrFailed()
-
-
-# # Publish Test Results
-#   - task: PublishTestResults@2
-#     inputs:
-#       testRunner: 'NUnit'
-#       testResultsFiles: 'testResults.xml' 
-#       searchFolder: '$(System.DefaultWorkingDirectory)' # Optional
-#       #mergeTestResults: false # Optional
-#       testRunTitle: Pester - Windows PowerShell # Optional
-#       #platform: # Optional
-#       #configuration: # Optional
-#       #publishRunAttachments: true # Optional
-#     condition: succeededOrFailed()
-
-
-# # Publish Code Coverage Results
-#   - task: PublishCodeCoverageResults@1
-#     inputs:
-#       codeCoverageTool: 'JaCoCo' # Options: cobertura, jaCoCo
-#       # summaryFileLocation: codeCoverage.xml
-#       summaryFileLocation: $(System.DefaultWorkingDirectory)/codeCoverage.xml
-#       #reportDirectory: # Optional
-#       #additionalCodeCoverageFiles: # Optional
-#       #failIfCoverageEmpty: false # Optional
-#     condition: succeededOrFailed()
-
-# Publish Test Results
   - task: PublishTestResults@2
     name: PowerShellCorePublishTestResults
     displayName: 'PowerShell Core: Publish Test Results'
@@ -95,9 +50,9 @@ steps:
       testResultsFiles: 'testResultsCore.xml' 
       searchFolder: '$(System.DefaultWorkingDirectory)'
       testRunTitle: '${{ parameters.os }}: PowerShell Core: Pester'
+      failTaskOnFailedTests: true
     condition: succeededOrFailed()
 
-# Publish Code Coverage Results
   - task: PublishCodeCoverageResults@1
     name: PowerShellCorePublishCodeCoverage
     displayName: 'PowerShell Core: Publish Code Coverage'
