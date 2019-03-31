@@ -32,10 +32,21 @@ steps:
     pwsh: true
   condition: succeededOrFailed()
 
+- ${{ if in(parameters.os, 'Windows', 'masOS')}}:
+  - task: PowerShell@2
+    name: PowerShellCoreInvokePester
+    displayName: 'PowerShell Core: Test with Pester'
+    inputs:
+      targetType: 'inline'
+      script: |
+        Invoke-Pester .\Tests\sthTest.tests.ps1 -OutputFile .\testResultsCore.xml -OutputFormat NUnitXml -CodeCoverage .\sthTest.ps1 -CodeCoverageOutputFile .\codeCoverageCore.xml -CodeCoverageOutputFileFormat JaCoCo
+      pwsh: true
+    condition: succeededOrFailed()
+
 - ${{ if eq(parameters.os, 'Linux')}}:
   - task: PowerShell@2
     name: PowerShellCoreInstallPesterLinux
-    displayName: 'PowerShell Core: Install Pester'
+    displayName: 'PowerShell Core: Install Pester on Linux'
     inputs:
       targetType: 'inline'
       script: |
@@ -44,16 +55,6 @@ steps:
         Get-Module -Name Pester -ListAvailable
       pwsh: true
     condition: succeededOrFailed()
-
-- task: PowerShell@2
-  name: PowerShellCoreInvokePester
-  displayName: 'PowerShell Core: Test with Pester'
-  inputs:
-    targetType: 'inline'
-    script: |
-      Invoke-Pester .\Tests\sthTest.tests.ps1 -OutputFile .\testResultsCore.xml -OutputFormat NUnitXml -CodeCoverage .\sthTest.ps1 -CodeCoverageOutputFile .\codeCoverageCore.xml -CodeCoverageOutputFileFormat JaCoCo
-    pwsh: true
-  condition: succeededOrFailed()
 
 - task: PublishTestResults@2
   name: PowerShellCorePublishTestResults
