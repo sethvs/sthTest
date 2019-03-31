@@ -1,7 +1,7 @@
 name: PR-$(System.PullRequest.PullRequestNumber)-$(Date:yyyyMMdd)$(Rev:.rr)
 
 jobs:
-- job: Windows PowerShell
+- job: WindowsPowerShell
 
   pool:
     vmImage: windows-2019
