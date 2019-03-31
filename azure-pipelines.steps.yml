@@ -32,6 +32,19 @@ steps:
     pwsh: true
   condition: succeededOrFailed()
 
+- ${{ if eq(parameters.os, 'Linux')}}:
+  - task: PowerShell@2
+    name: PowerShellCoreInstallPester
+    displayName: 'PowerShell Core: Install Pester'
+    inputs:
+      targetType: 'inline'
+      script: |
+        Get-Module -Name Pester -ListAvailable
+        Install-Module -Name Pester -MinimumVersion 4.7.3 -Repository PSGallery -Force -Scope CurrentUser #-SkipPublisherCheck
+        Get-Module -Name Pester -ListAvailable
+      pwsh: true
+    condition: succeededOrFailed()
+
 - task: PowerShell@2
   name: PowerShellCoreInvokePester
   displayName: 'PowerShell Core: Test with Pester'
