@@ -1,7 +1,7 @@
 name: PR-$(System.PullRequest.PullRequestNumber)-$(Date:yyyyMMdd)$(Rev:.rr)
 
 jobs:
-- job: WindowsPowerShell
+- job: windows
 
   pool:
     vmImage: windows-2019
@@ -53,7 +53,7 @@ jobs:
       testRunner: 'NUnit'
       testResultsFiles: 'testResults.xml' 
       searchFolder: '$(System.DefaultWorkingDirectory)'
-      testRunTitle: 'Windows PowerShell'
+      testRunTitle: 'Windows PowerShell: Pester'
       failTaskOnFailedTests: true
     condition: succeededOrFailed()
 
@@ -65,22 +65,12 @@ jobs:
       summaryFileLocation: $(System.DefaultWorkingDirectory)/codeCoverage.xml
     condition: succeededOrFailed()
 
-
-- job: Windows_PowerShellCore
-
-  pool:
-    vmImage: windows-2019
-
-  steps:
-    - checkout: self
-      clean: true
-
-    - template: azure-pipelines.steps.yml
-      parameters:
-        os: Windows
+  - template: azure-pipelines.steps.yml
+    parameters:
+      os: Windows
 
 
-- job: MacOS_PowerShellCore
+- job: macos
 
   pool:
     vmImage: macOS-10.13
@@ -94,7 +84,7 @@ jobs:
         os: macOS
 
 
-- job: Linux_PowerShellCore
+- job: linux
 
   pool:
     vmImage: ubuntu-16.04
@@ -106,4 +96,3 @@ jobs:
     - template: azure-pipelines.steps.yml
       parameters:
         os: Linux
-    
