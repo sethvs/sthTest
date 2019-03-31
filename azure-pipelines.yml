@@ -1,7 +1,7 @@
 name: PR-$(System.PullRequest.PullRequestNumber)-$(Date:yyyyMMdd)$(Rev:.rr)
 
 jobs:
-- job: windows
+- job: Windows PowerShell
 
   pool:
     vmImage: windows-2019
@@ -65,13 +65,20 @@ jobs:
       summaryFileLocation: $(System.DefaultWorkingDirectory)/codeCoverage.xml
     condition: succeededOrFailed()
 
+- job: Windows
+
+  pool:
+    vmImage: windows-2019
+
+  steps:
+    - checkout: self
+      clean: true
+      
   - template: azure-pipelines.steps.yml
     parameters:
       os: Windows
 
-
-
-- job: macos
+- job: MacOS
 
   pool:
     vmImage: macOS-10.13
@@ -84,7 +91,7 @@ jobs:
       parameters:
         os: macOS
 
-- job: linux
+- job: Linux
 
   pool:
     vmImage: ubuntu-16.04
