@@ -1,41 +1,4 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
-# pool:
-#   vmImage: 'Ubuntu 16.04'
-
-# steps:
-# - script: echo Hello, world!
-#   displayName: 'Run a one-line script'
-
-# - script: |
-#     echo Add other tasks to build, test, and deploy your project.
-#     echo See https://aka.ms/yaml
-#   displayName: 'Run a multi-line script'
-
 name: PR-$(System.PullRequest.PullRequestNumber)-$(Date:yyyyMMdd)$(Rev:.rr)
-
-# queue:
-  # name: Hosted VS2017
-  # parallel: 2 # Limit to two agents at a time
-  # matrix:
-    # UnelevatedPesterTests:
-      # Purpose: UnelevatedPesterTests
-    # ElevatedPesterTests_xUnit_Packaging:
-    #   Purpose: ElevatedPesterTests_xUnit_Packaging
-
-variables:
-  GIT_CONFIG_PARAMETERS: "'core.autocrlf=false'"
-  DOTNET_CLI_TELEMETRY_OPTOUT: 1
-  POWERSHELL_TELEMETRY_OPTOUT: 1
-  # Avoid expensive initialization of dotnet cli, see: http://donovanbrown.com/post/Stop-wasting-time-during-NET-Core-builds
-  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
-
-# resources:
-# - repo: self
-#   clean: true
 
 jobs:
 - job: windows
@@ -44,186 +7,65 @@ jobs:
     vmImage: windows-2019
 
   steps:
-    - checkout: self
-      clean: true
-    
-    - powershell: |
-        $PSVersionTable
-      name: PSVersionTable
-      displayName: Getting PSVersionTable variable
-      condition: succeededOrFailed()
+  - checkout: self
+    clean: true
+  
+  - powershell: |
+      $PSVersionTable
+    name: PSVersionTable
+    displayName: Getting PSVersionTable variable
+    condition: succeededOrFailed()
 
-    - powershell: |
-        Get-Module -ListAvailable
-      name: ModulesInstalled
-      displayName: Getting installed modules
-      condition: succeededOrFailed()
+  - powershell: |
+      Get-Module -ListAvailable
+    name: ModulesInstalled
+    displayName: Getting installed modules
+    condition: succeededOrFailed()
 
-    - powershell: |
-        $PSVersionTable
-      name: PSVersionTable_pwsh
-      displayName: Getting PSVersionTable variable in pwsh
-      condition: succeededOrFailed()
-      # pwsh: true
-      enabled: false
+  - powershell: |
+        Install-Module -Name Pester -MinimumVersion 4.7.3 -Repository PSGallery -Force #-SkipPublisherCheck
+    name: installPester
+    displayName: Install Pester
+    condition: succeededOrFailed()
 
-  # PowerShell!
-  # Run a PowerShell script on Windows, macOS, or Linux.!!
-    - task: PowerShell@2
-      name: pwsh_check
-      displayName: PowerShell Core Check
-      inputs:
-        targetType: 'inline' # Optional. Options: filePath, inline
-        #filePath: # Required when targetType == FilePath
-        #arguments: # Optional
-        #script: '# Write your powershell commands here.' # Required when targetType == Inline
-        script: '$PSVersionTable' # Required when targetType == Inline
-        #errorActionPreference: 'stop' # Optional. Options: stop, continue, silentlyContinue
-        #failOnStderr: false # Optional
-        #ignoreLASTEXITCODE: false # Optional
-        pwsh: true # Optional
-        #workingDirectory: # Optional
+  - powershell: |
+      Get-Module -Name Pester -ListAvailable
+    name: pesterVersion
+    displayName: Get Pester Version
+    condition: succeededOrFailed()
 
-    - task: PowerShell@2
-      name: ModulesInstalledCore
-      displayName: Getting installed modules Core
-      inputs:
-        targetType: 'inline'
-        script: Get-Module -ListAvailable
-        pwsh: true
+  - powershell: |
+      Invoke-Pester .\Tests\sthTest.tests.ps1 -OutputFile .\testResults.xml -OutputFormat NUnitXml -CodeCoverage .\sthTest.ps1 -CodeCoverageOutputFile .\codeCoverage.xml -CodeCoverageOutputFileFormat JaCoCo
+    name: invokePester
+    displayName: Testing with Pester
+    condition: succeededOrFailed()
 
-  # Command Line
-  # Run a command line script using cmd.exe on Windows and bash on macOS and Linux.
-    - task: CmdLine@2
-      name: pre
-      displayName: Is there a PowerShell Core pre-installed?
-      inputs:
-        # script: 'pwsh.exe -Command "& {$PSVersionTable}"'
-        # script: 'pwsh.exe -Command "& {$PSVersionTable}"'
-        script: 'dir "%PROGRAMFILES%"'
-        # script: 'echo Write your commands here.'
-        #workingDirectory: # Optional
-        #failOnStderr: false # Optional
-      condition: succeededOrFailed()
+  - powershell: |
+      Get-ChildItem
+    name: getChildItem
+    displayName: Getting Child Items
+    condition: succeededOrFailed()
+
+  - task: PublishTestResults@2
+    inputs:
+      testRunner: 'NUnit'
+      testResultsFiles: 'testResults.xml' 
+      searchFolder: '$(System.DefaultWorkingDirectory)'
+
+      testRunTitle: Pester - Windows PowerShell
+    condition: succeededOrFailed()
+
+  - task: PublishCodeCoverageResults@1
+    inputs:
+      codeCoverageTool: 'JaCoCo'
+      summaryFileLocation: $(System.DefaultWorkingDirectory)/codeCoverage.xml
+    condition: succeededOrFailed()
+
+  - template: azure-pipelines.steps.yml
+    parameters:
+      os: 'windows'
 
 
-
-    # PowerShell Core - Test
-    - task: PowerShell@2
-      name: installPesterCore
-      displayName: PowerShell Core - Install Pester
-      inputs:
-        targetType: 'inline'
-        script: |
-          Get-Module -Name Pester -ListAvailable
-          Install-Module -Name Pester -MinimumVersion 4.7.3 -Repository PSGallery -Force #-SkipPublisherCheck
-          Get-Module -Name Pester -ListAvailable
-        pwsh: true
-      condition: succeededOrFailed()
-
-    - task: PowerShell@2
-      name: invokePesterCore
-      displayName: PowerShell Core - Test with Pester
-      inputs:
-        targetType: 'inline'
-        script: |
-          Invoke-Pester .\Tests\sthTest.tests.ps1 -OutputFile .\testResultsCore.xml -OutputFormat NUnitXml -CodeCoverage .\sthTest.ps1 -CodeCoverageOutputFile .\codeCoverageCore.xml -CodeCoverageOutputFileFormat JaCoCo
-        pwsh: true
-      condition: succeededOrFailed()
-
-    # - script: # script path or inline
-    #   workingDirectory: #
-    #   displayName: #
-    #   failOnStderr: #
-    #   env:  # mapping of environment variables to add
-
-    - powershell: |
-          Install-Module -Name Pester -MinimumVersion 4.7.3 -Repository PSGallery -Force #-SkipPublisherCheck
-      name: installPester
-      displayName: Install Pester
-      condition: succeededOrFailed()
-
-    - powershell: |
-        Get-Module -Name Pester -ListAvailable
-      name: pesterVersion
-      displayName: Get Pester Version
-      condition: succeededOrFailed()
-
-    # - powershell: |
-    #     Invoke-Pester -Script .\Tests\sthTest.tests.ps1 -CodeCoverage sthTest.ps1
-    #   name: invokePester
-    #   displayName: Testing with Pester
-    #   condition: succeededOrFailed()
-
-    - powershell: |
-        Invoke-Pester .\Tests\sthTest.tests.ps1 -OutputFile .\testResults.xml -OutputFormat NUnitXml -CodeCoverage .\sthTest.ps1 -CodeCoverageOutputFile .\codeCoverage.xml -CodeCoverageOutputFileFormat JaCoCo
-      name: invokePester
-      displayName: Testing with Pester
-      condition: succeededOrFailed()
-
-    - powershell: |
-        Get-ChildItem
-      name: getChildItem
-      displayName: Getting Child Items
-      condition: succeededOrFailed()
-
-  # Publish Test Results
-  # Publish Test Results to Azure Pipelines/TFS
-    - task: PublishTestResults@2
-      inputs:
-        testRunner: 'NUnit' # Options: JUnit, NUnit, VSTest, XUnit
-        testResultsFiles: 'testResults.xml' 
-        searchFolder: '$(System.DefaultWorkingDirectory)' # Optional
-        #mergeTestResults: false # Optional
-        testRunTitle: Pester - Windows PowerShell # Optional
-        #platform: # Optional
-        #configuration: # Optional
-        #publishRunAttachments: true # Optional
-      condition: succeededOrFailed()
-
-
-  # Publish Code Coverage Results
-  # Publish Cobertura or JaCoCo code coverage results from a build
-    - task: PublishCodeCoverageResults@1
-      inputs:
-        codeCoverageTool: 'JaCoCo' # Options: cobertura, jaCoCo
-        # summaryFileLocation: codeCoverage.xml
-        summaryFileLocation: $(System.DefaultWorkingDirectory)/codeCoverage.xml
-        #reportDirectory: # Optional
-        #additionalCodeCoverageFiles: # Optional
-        #failIfCoverageEmpty: false # Optional
-      condition: succeededOrFailed()
-
-  # Publish Test Results
-  # Publish Test Results to Azure Pipelines/TFS
-    - task: PublishTestResults@2
-      inputs:
-        testRunner: 'NUnit' # Options: JUnit, NUnit, VSTest, XUnit
-        testResultsFiles: 'testResultsCore.xml' 
-        searchFolder: '$(System.DefaultWorkingDirectory)' # Optional
-        #mergeTestResults: false # Optional
-        testRunTitle: Pester - PowerShell Core # Optional
-        #platform: # Optional
-        #configuration: # Optional
-        #publishRunAttachments: true # Optional
-      condition: succeededOrFailed()
-      name: publishTestResultsCore
-      displayName: Publishing Test Results for PowerShell Core
-
-
-  # Publish Code Coverage Results
-  # Publish Cobertura or JaCoCo code coverage results from a build
-    - task: PublishCodeCoverageResults@1
-      inputs:
-        codeCoverageTool: 'JaCoCo' # Options: cobertura, jaCoCo
-        # summaryFileLocation: codeCoverage.xml
-        summaryFileLocation: $(System.DefaultWorkingDirectory)/codeCoverageCore.xml
-        #reportDirectory: # Optional
-        #additionalCodeCoverageFiles: # Optional
-        #failIfCoverageEmpty: false # Optional
-      condition: succeededOrFailed()
-      name: publishCoreCoverageCore
-      displayName: Publishing Code Coverage for PowerShell Core
 
 
 - job: macos

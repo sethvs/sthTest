@@ -1,0 +1,110 @@
+parameters:
+  os: ''
+
+  steps:
+    - checkout: self
+      clean: true
+    
+    - task: PowerShell@2
+      name: PowerShellCoreVersion
+      displayName: 'PowerShell Core: Version'
+      inputs:
+        targetType: 'inline'
+        script: '$PSVersionTable'
+        pwsh: true
+
+    - task: PowerShell@2
+      name: ModulesInstalledCore
+      displayName: 'PowerShellCore: Getting installed modules'
+      inputs:
+        targetType: 'inline'
+        script: Get-Module -ListAvailable
+        pwsh: true
+
+    # PowerShell Core - Test
+    - task: PowerShell@2
+      name: installPesterCore
+      displayName: 'PowerShell Core: Install Pester'
+      inputs:
+        targetType: 'inline'
+        script: |
+          Get-Module -Name Pester -ListAvailable
+          Install-Module -Name Pester -MinimumVersion 4.7.3 -Repository PSGallery -Force #-SkipPublisherCheck
+          Get-Module -Name Pester -ListAvailable
+        pwsh: true
+      condition: succeededOrFailed()
+
+    - task: PowerShell@2
+      name: invokePesterCore
+      displayName: 'PowerShell Core: Test with Pester'
+      inputs:
+        targetType: 'inline'
+        script: |
+          Invoke-Pester .\Tests\sthTest.tests.ps1 -OutputFile .\testResultsCore.xml -OutputFormat NUnitXml -CodeCoverage .\sthTest.ps1 -CodeCoverageOutputFile .\codeCoverageCore.xml -CodeCoverageOutputFileFormat JaCoCo
+        pwsh: true
+      condition: succeededOrFailed()
+
+    # - powershell: |
+    #       Install-Module -Name Pester -MinimumVersion 4.7.3 -Repository PSGallery -Force #-SkipPublisherCheck
+    #   name: installPester
+    #   displayName: Install Pester
+    #   condition: succeededOrFailed()
+
+    # - powershell: |
+    #     Get-Module -Name Pester -ListAvailable
+    #   name: pesterVersion
+    #   displayName: Get Pester Version
+    #   condition: succeededOrFailed()
+
+    # - powershell: |
+    #     Invoke-Pester .\Tests\sthTest.tests.ps1 -OutputFile .\testResults.xml -OutputFormat NUnitXml -CodeCoverage .\sthTest.ps1 -CodeCoverageOutputFile .\codeCoverage.xml -CodeCoverageOutputFileFormat JaCoCo
+    #   name: invokePester
+    #   displayName: Testing with Pester
+    #   condition: succeededOrFailed()
+
+
+  # # Publish Test Results
+  #   - task: PublishTestResults@2
+  #     inputs:
+  #       testRunner: 'NUnit'
+  #       testResultsFiles: 'testResults.xml' 
+  #       searchFolder: '$(System.DefaultWorkingDirectory)' # Optional
+  #       #mergeTestResults: false # Optional
+  #       testRunTitle: Pester - Windows PowerShell # Optional
+  #       #platform: # Optional
+  #       #configuration: # Optional
+  #       #publishRunAttachments: true # Optional
+  #     condition: succeededOrFailed()
+
+
+  # # Publish Code Coverage Results
+  #   - task: PublishCodeCoverageResults@1
+  #     inputs:
+  #       codeCoverageTool: 'JaCoCo' # Options: cobertura, jaCoCo
+  #       # summaryFileLocation: codeCoverage.xml
+  #       summaryFileLocation: $(System.DefaultWorkingDirectory)/codeCoverage.xml
+  #       #reportDirectory: # Optional
+  #       #additionalCodeCoverageFiles: # Optional
+  #       #failIfCoverageEmpty: false # Optional
+  #     condition: succeededOrFailed()
+
+  # Publish Test Results
+    - task: PublishTestResults@2
+      inputs:
+        testRunner: 'NUnit'
+        testResultsFiles: 'testResultsCore.xml' 
+        searchFolder: '$(System.DefaultWorkingDirectory)'
+        testRunTitle: 'PowerShell Core: Pester'
+      condition: succeededOrFailed()
+      name: publishTestResultsCore
+      displayName: 'PowerShell Core: Publish Test Results'
+
+  # Publish Code Coverage Results
+    - task: PublishCodeCoverageResults@1
+      inputs:
+        codeCoverageTool: 'JaCoCo'
+        summaryFileLocation: $(System.DefaultWorkingDirectory)/codeCoverageCore.xml
+      condition: succeededOrFailed()
+      name: publishCoreCoverageCore
+      displayName: 'PowerShell Core: Publish Code Coverage'
+
