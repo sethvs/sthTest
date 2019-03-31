@@ -1,7 +1,7 @@
 name: PR-$(System.PullRequest.PullRequestNumber)-$(Date:yyyyMMdd)$(Rev:.rr)
 
 jobs:
-- job: WindowsPowerShell
+- job: 'Windows PowerShell'
 
   pool:
     vmImage: windows-2019
@@ -53,7 +53,7 @@ jobs:
       testRunner: 'NUnit'
       testResultsFiles: 'testResults.xml' 
       searchFolder: '$(System.DefaultWorkingDirectory)'
-      testRunTitle: 'Windows PowerShell: Pester'
+      testRunTitle: 'Windows PowerShell'
       failTaskOnFailedTests: true
     condition: succeededOrFailed()
 
@@ -66,7 +66,7 @@ jobs:
     condition: succeededOrFailed()
 
 
-- job: Windows
+- job: aWindows
 
   pool:
     vmImage: windows-2019
@@ -80,7 +80,7 @@ jobs:
         os: Windows
 
 
-- job: MacOS
+- job: aMacOS
 
   pool:
     vmImage: macOS-10.13
@@ -94,7 +94,7 @@ jobs:
         os: macOS
 
 
-- job: Linux
+- job: aLinux
 
   pool:
     vmImage: ubuntu-16.04

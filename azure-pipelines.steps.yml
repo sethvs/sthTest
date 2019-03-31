@@ -63,7 +63,7 @@ steps:
     testRunner: 'NUnit'
     testResultsFiles: 'testResultsCore.xml' 
     searchFolder: '$(System.DefaultWorkingDirectory)'
-    testRunTitle: '${{ parameters.os }}: PowerShell Core: Pester'
+    testRunTitle: '${{ parameters.os }}: PowerShell Core'
     failTaskOnFailedTests: true
   condition: succeededOrFailed()
 
