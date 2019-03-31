@@ -65,6 +65,7 @@ jobs:
       summaryFileLocation: $(System.DefaultWorkingDirectory)/codeCoverage.xml
     condition: succeededOrFailed()
 
+
 - job: Windows
 
   pool:
@@ -73,10 +74,11 @@ jobs:
   steps:
     - checkout: self
       clean: true
-      
-  - template: azure-pipelines.steps.yml
-    parameters:
-      os: Windows
+
+    - template: azure-pipelines.steps.yml
+      parameters:
+        os: Windows
+
 
 - job: MacOS
 
@@ -90,6 +92,7 @@ jobs:
     - template: azure-pipelines.steps.yml
       parameters:
         os: macOS
+
 
 - job: Linux
 
