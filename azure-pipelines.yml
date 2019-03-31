@@ -66,7 +66,7 @@ jobs:
     condition: succeededOrFailed()
 
 
-- job: PowerShellCore_Windows
+- job: Windows_PowerShellCore
 
   pool:
     vmImage: windows-2019
@@ -80,7 +80,7 @@ jobs:
         os: Windows
 
 
-- job: PowerShellCore_MacOS
+- job: MacOS_PowerShellCore
 
   pool:
     vmImage: macOS-10.13
@@ -94,7 +94,7 @@ jobs:
         os: macOS
 
 
-- job: PowerShellCore_Linux
+- job: Linux_PowerShellCore
 
   pool:
     vmImage: ubuntu-16.04
