@@ -2,9 +2,7 @@ parameters:
   os: ''
 
 steps:
-  - checkout: self
-    clean: true
-  
+ 
   - task: PowerShell@2
     name: PowerShellCoreVersion
     displayName: 'PowerShell Core: Version'

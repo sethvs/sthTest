@@ -63,8 +63,7 @@ jobs:
 
   - template: azure-pipelines.steps.yml
     parameters:
-      os: 'windows'
-
+      os: windows
 
 
 
