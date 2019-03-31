@@ -12,38 +12,38 @@ jobs:
   
   - powershell: |
       $PSVersionTable
-    name: PSVersionTable
-    displayName: Getting PSVersionTable variable
+    name: WindowsPowerShellVersion
+    displayName: 'Windows PowerShell: Version'
     condition: succeededOrFailed()
 
   - powershell: |
       Get-Module -ListAvailable
-    name: ModulesInstalled
-    displayName: Getting installed modules
+    name: WindowsPowerShellVersionModules
+    displayName: 'Windows PowerShell: Getting installed modules'
     condition: succeededOrFailed()
 
   - powershell: |
         Install-Module -Name Pester -MinimumVersion 4.7.3 -Repository PSGallery -Force #-SkipPublisherCheck
-    name: installPester
-    displayName: Install Pester
+    name: WindowsPowerShellInstallPester
+    displayName: 'Windows PowerShell: Install Pester'
     condition: succeededOrFailed()
 
   - powershell: |
       Get-Module -Name Pester -ListAvailable
-    name: pesterVersion
-    displayName: Get Pester Version
+    name: WindowsPowerShellPesterVersion
+    displayName: 'Windows PowerShell: Pester Version'
     condition: succeededOrFailed()
 
   - powershell: |
       Invoke-Pester .\Tests\sthTest.tests.ps1 -OutputFile .\testResults.xml -OutputFormat NUnitXml -CodeCoverage .\sthTest.ps1 -CodeCoverageOutputFile .\codeCoverage.xml -CodeCoverageOutputFileFormat JaCoCo
-    name: invokePester
-    displayName: Testing with Pester
+    name: WindowsPowerShellInvokePester
+    displayName: 'Windows PowerShell: Test with Pester'
     condition: succeededOrFailed()
 
   - powershell: |
       Get-ChildItem
-    name: getChildItem
-    displayName: Getting Child Items
+    name: WindowsPowerShellGetFiles
+    displayName: 'Windows PowerShell: Get Files'
     condition: succeededOrFailed()
 
   - task: PublishTestResults@2
