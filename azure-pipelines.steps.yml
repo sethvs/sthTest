@@ -20,7 +20,7 @@ steps:
     pwsh: true
 
 # PowerShell Core - Test
-- ${{ if in(parameters.os, 'Windows', 'masOS')}}:
+- ${{ if in(parameters.os, 'Windows', 'macOS')}}:
   - task: PowerShell@2
     name: PowerShellCoreInstallPester
     displayName: 'PowerShell Core: Install Pester'
