@@ -34,7 +34,7 @@ steps:
 
 - ${{ if eq(parameters.os, 'Linux')}}:
   - task: PowerShell@2
-    name: PowerShellCoreInstallPester
+    name: PowerShellCoreInstallPesterLinux
     displayName: 'PowerShell Core: Install Pester'
     inputs:
       targetType: 'inline'
