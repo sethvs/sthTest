@@ -43,7 +43,7 @@ jobs:
   - powershell: |
       Get-ChildItem
     name: WindowsPowerShellGetFiles
-    displayName: 'Windows PowerShell: Get Files'
+    displayName: 'Windows PowerShell: List Files'
     condition: succeededOrFailed()
 
   - task: PublishTestResults@2
@@ -53,6 +53,7 @@ jobs:
       testRunner: 'NUnit'
       testResultsFiles: 'testResults.xml' 
       searchFolder: '$(System.DefaultWorkingDirectory)'
+      failTaskOnFailedTests: true
       testRunTitle: 'Windows PowerShell: Pester'
     condition: succeededOrFailed()
 
